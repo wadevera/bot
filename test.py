@@ -4,6 +4,7 @@ from FuturosConsultas import FuturosConsultas as Consultas
 from FuturosOrdenes import FuturosOrdenes as Ordenes
 from FuturosBot import FuturosBot
 import json
+import socket
 
 c = Consultas()
 o = Ordenes()
@@ -12,9 +13,11 @@ bot = FuturosBot()
 #operaciones = c.ObtenerOperaciones("BTCUSDT")
 #balance = c.ObtenerBalance()
 
-cantidad = c.ObtenerPosicion("ETHUSDT")
+#cantidad = c.ObtenerPosicion("ETHUSDT")
 
-print(cantidad)
+#print(cantidad)
+ip_address = socket.gethostbyname(socket.gethostname())
+print(ip_address)
 
 #bot.Entrar("Compra   eth")
 
