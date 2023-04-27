@@ -17,7 +17,7 @@ def hello_world():
 
 
 
-@app.route('/bot', methods=['POST'])
+@app.route('/bot1', methods=['POST'])
 def bot():
     parametro = str(request.data, 'UTF-8').lower()
     f = open("salida.txt", "a")
