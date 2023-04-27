@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from FuturosConsultas import FuturosConsultas as Consultas
 from FuturosOrdenes import FuturosOrdenes as Ordenes
 from FuturosBot import FuturosBot
