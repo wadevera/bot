@@ -10,11 +10,11 @@ bot = FuturosBot()
 #operaciones = c.ObtenerOperaciones("BTCUSDT")
 #balance = c.ObtenerBalance()
 
-#cantidad = c.ObtenerPosicion("ETHUSDT")
+cantidad = c.ObtenerPosicion("ETHUSDT")
 
-#print(cantidad)
+print(cantidad)
 
-bot.Entrar("Compra   eth")
+#bot.Entrar("Compra   eth")
 
 #o.CerrarCompraMarket("ETHUSDT", cantidad)
 
