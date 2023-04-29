@@ -18,6 +18,7 @@ bot = FuturosBot()
 #print(cantidad)
 ip_address = socket.gethostbyname(socket.gethostname())
 print(ip_address)
+print("\n hola mundo")
 
 #bot.Entrar("Compra   eth")
 
