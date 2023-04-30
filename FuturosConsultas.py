@@ -32,7 +32,7 @@ class FuturosConsultas(Binance):
         parametros = self.Firmar(parametros)
         h = self.Encabezados(self.apiKey)
         try:
-            response = requests.get(endpoint, params=parametros, headers=h)
+            response = requests.get(self.url+endpoint, params=parametros, headers=h)
             response.raise_for_status() # genera una excepción si la solicitud no fue exitosa
             return response.json()
         except requests.exceptions.RequestException as e:
