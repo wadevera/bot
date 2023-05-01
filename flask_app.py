@@ -1,5 +1,6 @@
 # A very simple Flask Hello World app for you to get started with...
 from FuturosBot import FuturosBot
+from datetime import datetime
 
 from flask import request
 from flask import Flask
@@ -21,7 +22,7 @@ def hello_world():
 def bot():
     parametro = str(request.data, 'UTF-8').lower()
     f = open("salida.txt", "a")
-    f.write(parametro + "\n")
+    f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S")+ " -> " + parametro + "\n")
     f.close()
 
     bot = FuturosBot()
