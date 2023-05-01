@@ -13,7 +13,7 @@ class GateConsultas(Gate):
         parametros = {
             "currency": "usdt"
         }
-        h=self.GateEncabezados(self, self.apiKey, parametros)
+        h=self.GateEncabezados(self.apiKey, parametros)
 
         response = requests.get(self.url+endpoint, params=parametros, headers=h)
         # Imprime la respuesta

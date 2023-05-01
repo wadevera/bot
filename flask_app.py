@@ -1,5 +1,5 @@
 # A very simple Flask Hello World app for you to get started with...
-#from FuturosBot import FuturosBot
+from FuturosBot import FuturosBot
 
 from flask import request
 from flask import Flask
@@ -24,7 +24,7 @@ def bot():
     f.write(parametro + "\n")
     f.close()
 
-#    bot = FuturosBot()
-#    bot.Entrar(parametro)
+    bot = FuturosBot()
+    bot.Entrar(parametro)
 
     return 'ok'
