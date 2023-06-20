@@ -1,5 +1,6 @@
 # A very simple Flask Hello World app for you to get started with...
-from FuturosBot import FuturosBot
+#from FuturosBot import FuturosBot
+from GateBot import GateBot
 from datetime import datetime
 
 from flask import request
@@ -25,7 +26,7 @@ def bot():
     f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S")+ " -> " + parametro + "\n")
     f.close()
 
-    bot = FuturosBot()
+    bot = GateBot()
     bot.Entrar(parametro)
 
     return 'ok'

@@ -1,6 +1,8 @@
 from Gate import Gate
 import requests
 
+
+
 class GateConsultas(Gate):
     def __init__(self):
         Gate.__init__(self)
