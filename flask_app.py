@@ -1,6 +1,6 @@
 # A very simple Flask Hello World app for you to get started with...
 #from FuturosBot import FuturosBot
-from GateBot import GateBot
+from gateBot import GateBot
 from datetime import datetime
 
 from flask import request
