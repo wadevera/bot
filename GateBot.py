@@ -32,95 +32,96 @@ gate_trade = GateIO(API_TRADE_URL, apiKey, secretKey)
 orden = ""
 ticker = ""
     
+class GateBot(GateIO):
     
-def ObtenerComando(self, texto:str)->str:
-    compra = ["comprar", "compra", "buy", "long"]
-    venta = ["vender", "vender", "venda", "sell", "short"]
-    if texto.lower() in compra:
-        return "Comprar"
-    if texto.lower() in venta:
-        return "Vender"
-    return "nada"
+    def ObtenerComando(self, texto:str)->str:
+        compra = ["comprar", "compra", "buy", "long"]
+        venta = ["vender", "vender", "venda", "sell", "short"]
+        if texto.lower() in compra:
+            return "Comprar"
+        if texto.lower() in venta:
+            return "Vender"
+        return "nada"
 
-def ObtenerTicker(self, texto:str)->str:
-    ticker = texto.lower()
-    if "perp" in ticker:
-        ticker = ticker.replace("perp", "")
-    if "_usdt" not in ticker:
-        ticker = ticker+"_usdt"
-    return ticker
+    def ObtenerTicker(self, texto:str)->str:
+        ticker = texto.lower()
+        if "perp" in ticker:
+            ticker = ticker.replace("perp", "")
+        if "_usdt" not in ticker:
+            ticker = ticker+"_usdt"
+        return ticker
 
-def Desglozar(self, mensaje:str):
-    x = mensaje.split()
-    self.orden = self.ObtenerComando(x[0])
-    self.ticker = self.ObtenerTicker(x[1])
-    print("Desglozar " +self.ticker)
+    def Desglozar(self, mensaje:str):
+        x = mensaje.split()
+        self.orden = self.ObtenerComando(x[0])
+        self.ticker = self.ObtenerTicker(x[1])
+        print("Desglozar " +self.ticker)
 
-def ObtenerCantidad(self, ticker:str)->float:
-    #obtiene el saldo de usdt / precio del ticker
-    balances = json.loads(gate_trade.balances())
-    usdt_balance = balances['available']['USDT']
-    print(usdt_balance)
-    currency_pair = 'ron_usdt'  # Reemplaza 'ron_usdt' con el par de divisas correspondiente
+    def ObtenerCantidad(self, ticker:str)->float:
+        #obtiene el saldo de usdt / precio del ticker
+        balances = json.loads(gate_trade.balances())
+        usdt_balance = balances['available']['USDT']
+        print(usdt_balance)
+        currency_pair = 'ron_usdt'  # Reemplaza 'ron_usdt' con el par de divisas correspondiente
 
-    # Llama a la función ticker para obtener la información del precio actual
-    response = gate_trade.ticker(currency_pair)
+        # Llama a la función ticker para obtener la información del precio actual
+        response = gate_trade.ticker(currency_pair)
 
-    # Obtiene el precio actual del par de divisas
-    current_price = response['last']
-    return usdt_balance / current_price
+        # Obtiene el precio actual del par de divisas
+        current_price = response['last']
+        return usdt_balance / current_price
 
-def ObtenerPosicion(self, ticker:str)->float:
-    #obtiene el saldo del ticker
-    balances = json.loads(gate_trade.balances())
-    ticker_balance = balances['available'][ticker]
-    return ticker_balance
+    def ObtenerPosicion(self, ticker:str)->float:
+        #obtiene el saldo del ticker
+        balances = json.loads(gate_trade.balances())
+        ticker_balance = balances['available'][ticker]
+        return ticker_balance
 
-def Entrar(self, mensaje:str)->bool:
-    currency_pair = 'ron_usdt'  # Reemplaza 'ron_usdt' con el par de divisas correspondiente
+    def Entrar(self, mensaje:str)->bool:
+        currency_pair = 'ron_usdt'  # Reemplaza 'ron_usdt' con el par de divisas correspondiente
 
-    # Llama a la función ticker para obtener la información del precio actual
-    response = gate_trade.ticker(currency_pair)
+        # Llama a la función ticker para obtener la información del precio actual
+        response = gate_trade.ticker(currency_pair)
 
-    # Obtiene el precio actual del par de divisas
-    current_price = response['last']    
+        # Obtiene el precio actual del par de divisas
+        current_price = response['last']    
 
 
-    #Desglosar mensaje
-    self.Desglozar(mensaje)
+        #Desglosar mensaje
+        self.Desglozar(mensaje)
 
-    #obtener la posicion actual del ticker
-    #print("voy a obtener la posicion " + self.ticker)
-    #pos = c.ObtenerPosicion(self.ticker)
-    pos = self.ObtenerPosicion("RON")
+        #obtener la posicion actual del ticker
+        #print("voy a obtener la posicion " + self.ticker)
+        #pos = c.ObtenerPosicion(self.ticker)
+        pos = self.ObtenerPosicion("RON")
 
-    #obtener la cantidad a operar segun el ticker
-    cantidad = self.ObtenerCantidad("USDT")
+        #obtener la cantidad a operar segun el ticker
+        cantidad = self.ObtenerCantidad("USDT")
 
-    print(self.orden + "->" + self.ticker + " " + str(cantidad))
+        print(self.orden + "->" + self.ticker + " " + str(cantidad))
 
-    if self.orden == "Comprar":
-        try:
-            # Place order buy
-            print(gate_trade.buy(self.ticker, current_price, cantidad))
-            self.Log(self.orden + " : " + self.ticker + " Cant: " + str(cantidad))
-        except Exception as e:
-            print("Error en la operación:", e)
-            self.Log("Error en la operación:", e)
-            if "code" in str(e):
-                error_json = json.loads(str(e).replace("'", "\""))
-                self.Log("Código de respuesta:" + error_json["code"] + "\n" + "Mensaje de respuesta:"+ error_json["msg"])
-            
-
-    if self.orden == "Vender":
-        if pos > 0:
+        if self.orden == "Comprar":
             try:
-                # Realiza la venta al precio actual
-                response = gate_trade.sell(self.ticker, current_price, pos)
-                self.Log("Cerrando long previo "+ self.ticker + " Cant: " + str(abs(pos)))
+                # Place order buy
+                print(gate_trade.buy(self.ticker, current_price, cantidad))
+                self.Log(self.orden + " : " + self.ticker + " Cant: " + str(cantidad))
             except Exception as e:
-                    print("Error en la operación:", e)
-                    self.Log("Error en la operación:", e)
-                    if "code" in str(e):
-                        error_json = json.loads(str(e).replace("'", "\""))
-                        self.Log("Código de respuesta:" + error_json["code"] + "\n" + "Mensaje de respuesta:"+ error_json["msg"])
+                print("Error en la operación:", e)
+                self.Log("Error en la operación:", e)
+                if "code" in str(e):
+                    error_json = json.loads(str(e).replace("'", "\""))
+                    self.Log("Código de respuesta:" + error_json["code"] + "\n" + "Mensaje de respuesta:"+ error_json["msg"])
+                
+
+        if self.orden == "Vender":
+            if pos > 0:
+                try:
+                    # Realiza la venta al precio actual
+                    response = gate_trade.sell(self.ticker, current_price, pos)
+                    self.Log("Cerrando long previo "+ self.ticker + " Cant: " + str(abs(pos)))
+                except Exception as e:
+                        print("Error en la operación:", e)
+                        self.Log("Error en la operación:", e)
+                        if "code" in str(e):
+                            error_json = json.loads(str(e).replace("'", "\""))
+                            self.Log("Código de respuesta:" + error_json["code"] + "\n" + "Mensaje de respuesta:"+ error_json["msg"])
