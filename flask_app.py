@@ -26,7 +26,14 @@ def bot():
     f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S")+ " -> " + parametro + "\n")
     f.close()
 
-    bot = GateBot()
+    # Tomar los valores de configuración del archivo Configuracion.py
+    api_trade_url = Configuracion.API_TRADE_URL
+    api_key = Configuracion.apiKey
+    secret_key = Configuracion.secretKey
+
+    # Modificación en la creación de la instancia de GateBot
+    bot = GateBot(api_trade_url, api_key, secret_key)
+    
     bot.Entrar(parametro)
 
     return 'ok'
