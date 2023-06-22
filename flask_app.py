@@ -2,6 +2,7 @@
 #from FuturosBot import FuturosBot
 from gateBot import GateBot
 from datetime import datetime
+import Configuracion
 
 from flask import request
 from flask import Flask
@@ -33,7 +34,7 @@ def bot():
 
     # Modificación en la creación de la instancia de GateBot
     bot = GateBot(api_trade_url, api_key, secret_key)
-    
+
     bot.Entrar(parametro)
 
     return 'ok'
