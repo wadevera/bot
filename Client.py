@@ -62,7 +62,7 @@ gate_trade = GateIO(API_TRADE_URL, apiKey, secretKey)
 # print(gate_query.tradeHistory('btc_usdt'))
 
 # Get account fund balances
-print(gate_trade.balances())
+#print(gate_trade.balances())
 
 # get new address
 # print(gate_trade.depositAddres('btc'))
@@ -91,14 +91,14 @@ print(gate_trade.balances())
 # withdraw
 # print(gate_trade.withdraw('btc', '88', btcAddress))
 
-#currency_pair = 'ron_usdt'  # Reemplaza 'ron_usdt' con el par de divisas correspondiente
+currency_pair = 'ron_usdt'  # Reemplaza 'ron_usdt' con el par de divisas correspondiente
 
 # Llama a la función ticker para obtener la información del precio actual
-#response = gate_trade.ticker(currency_pair)
+response = gate_trade.ticker(currency_pair)
 
 # Obtiene el precio actual del par de divisas
-#current_price = response['last']
-#print(current_price)
+current_price = response['last']
+print(current_price)
 #precio_rebajado = float(current_price) - 0.001 
 
 # Imprime el precio actual
