@@ -13,7 +13,7 @@ def getSign(params, secretKey):
     return mySign
 
 def httpGet(url, resource, params=''):
-    full_url = url + '/' + resource + '/' + params
+    full_url = 'https://' + url + '/' + resource + '/' + params
     response = requests.get(full_url)
     return response.json()
 
