@@ -20,8 +20,8 @@ btcAddress = '0xa384b30eC47b4346e941F688aE93c98CeA42b918'
 
 # Provide constants
 
-API_QUERY_URL = 'data.gateio.life'
-API_TRADE_URL = 'api.gateio.life'
+API_QUERY_URL = 'data.gateio.ws'
+API_TRADE_URL = 'api.gateio.ws'
 
 # Create a gate class instance
 
