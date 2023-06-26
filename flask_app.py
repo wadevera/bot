@@ -28,7 +28,8 @@ def bot():
     f.close()
 
     # Tomar los valores de configuración del archivo Configuracion.py
-    api_trade_url = Configuracion.API_TRADE_URL
+    #api_trade_url = Configuracion.API_TRADE_URL
+    api_trade_url = 'api.gateio.ws'
     api_key = Configuracion.GATE_API_KEY
     secret_key = Configuracion.GATE_SECRET_KEY
 
