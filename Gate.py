@@ -13,7 +13,7 @@ class Gate:
     def __init__(self):
         self.apiKey = Configuracion.GATE_API_KEY
         self.secretKey = Configuracion.GATE_SECRET_KEY
-        self.url = "https://api.gateio.ws"
+        self.url = "api.gateio.ws"
 
     def ObtenerHora(self) -> str:
         # Define el nonce (número único utilizado en cada solicitud)
