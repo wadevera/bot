@@ -20,8 +20,8 @@ btcAddress = '0xa384b30eC47b4346e941F688aE93c98CeA42b918'
 
 # Provide constants
 
-API_QUERY_URL = 'data.gateio.ws'
-API_TRADE_URL = 'api.gateio.ws'
+API_QUERY_URL = 'data.gateio.la'
+API_TRADE_URL = 'api.gateio.la'
 
 # Create a gate class instance
 
@@ -86,7 +86,6 @@ class GateBot(GateIO):
         # Obtiene el precio actual del par de divisas
         current_price = response['last']    
 
-
         #Desglosar mensaje
         self.Desglozar(mensaje)
 
@@ -101,7 +100,10 @@ class GateBot(GateIO):
         print(self.orden + "->" + self.ticker + " " + str(cantidad))
 
         if self.orden == "Comprar":
-            try:
+            f = open("salida.txt", "a")
+            f.write(self.orden + " -> " + self.ticker + " " + cantidad + "\n")
+            f.close()
+   """          try:
                 # Place order buy
                 print(gate_trade.buy(self.ticker, current_price, cantidad))
                 self.Log(self.orden + " : " + self.ticker + " Cant: " + str(cantidad))
@@ -110,7 +112,7 @@ class GateBot(GateIO):
                 self.Log("Error en la operación:", e)
                 if "code" in str(e):
                     error_json = json.loads(str(e).replace("'", "\""))
-                    self.Log("Código de respuesta:" + error_json["code"] + "\n" + "Mensaje de respuesta:"+ error_json["msg"])
+                    self.Log("Código de respuesta:" + error_json["code"] + "\n" + "Mensaje de respuesta:"+ error_json["msg"]) """
                 
 
         if self.orden == "Vender":
