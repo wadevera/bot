@@ -34,6 +34,7 @@ def httpPost(url, resource, params, apiKey, secretKey):
     }
 
     response = requests.post(full_url, data=params, headers=headers)
+    print(response)
     data = response.json()
     params.clear()
     return data
