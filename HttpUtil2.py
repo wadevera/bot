@@ -14,7 +14,6 @@ def getSign(params, secretKey):
 
 def httpGet(url, resource, params=''):
     full_url = 'https://' + url + '/' + resource + '/' + params
-    print(full_url)
     response = requests.get(full_url)
     return response.json()
 

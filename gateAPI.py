@@ -47,7 +47,8 @@ class GateIO:
 
     def ticker(self, param):
         URL = "/api2/1/ticker"
-        return httpGet(self.__url, URL, param)
+#        return httpGet(self.__url, URL, param)
+        return httpGet('https://api.gateio.ws', URL, param)
 
     def orderBook(self, param):
         URL = "/api2/1/orderBook"
@@ -62,7 +63,7 @@ class GateIO:
     def balances(self):
         URL = "/api2/1/private/balances"
         param = {}
-        return httpPost(self.__url, URL, param, self.__apiKey, self.__secretKey)
+        return httpPost('https://api.gateio.ws', URL, param, self.__apiKey, self.__secretKey)
 
     def depositAddres(self,param):
         URL = "/api2/1/private/depositAddress"
