@@ -25,6 +25,20 @@ def httpGet(url, resource, params=''):
     return data """
 
 def httpPost(url, resource, params, apiKey, secretKey):
+    full_url = 'https://' + url + '/' + resource
+    headers = {
+        "Content-type": "application/x-www-form-urlencoded",
+        "KEY": apiKey,
+        "SIGN": getSign(params, secretKey)
+    }
+
+    response = requests.post(full_url, data=params, headers=headers)
+    data = response.json()
+    params.clear()
+    return data
+
+
+""" def httpPost(url, resource, params, apiKey, secretKey):
     full_url = f"{url}/{resource}"
     headers = {
         "Content-type": "application/x-www-form-urlencoded",
@@ -34,4 +48,4 @@ def httpPost(url, resource, params, apiKey, secretKey):
     response = requests.post(full_url, data=params, headers=headers)
     data = response.json()
     params.clear()
-    return data
+    return data """
