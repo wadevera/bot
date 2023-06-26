@@ -13,10 +13,16 @@ def getSign(params, secretKey):
     return mySign
 
 def httpGet(url, resource, params=''):
+    full_url = url + '/' + resource + '/' + params
+    response = requests.get(full_url)
+    return response.json()
+
+
+""" def httpGet(url, resource, params=''):
     full_url = f"{url}/{resource}/{params}"
     response = requests.get(full_url)
     data = response.json()
-    return data
+    return data """
 
 def httpPost(url, resource, params, apiKey, secretKey):
     full_url = f"{url}/{resource}"
