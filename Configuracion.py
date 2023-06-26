@@ -3,6 +3,6 @@ API_KEY = "bUqoEUAMFIXaR7wp2a3409RWE1xAweA8ytDhKCBPZvceJXdA1mGIfwpnhixo12Uc"
 SECRET_KEY = "CitxgipAMAOVot6Q9oaTFhSoxvzOvj01neMwytAxtN08C6tM7WJc6YWp6KMmgjq8"
 GATE_API_KEY = "C2B71EE3-ABF2-45EF-BC8C-30EE3752E0C4"
 GATE_SECRET_KEY = "fa8681d0c42b4642a5c20ca423ec82c7ca97b1e17f890edaa7dc6ec05a082390"
-API_QUERY_URL = 'data.gateio.life'
-API_TRADE_URL = 'api.gateio.life'
+API_QUERY_URL = 'data.gateio.ws'
+API_TRADE_URL = 'api.gateio.ws'
 
