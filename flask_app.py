@@ -24,9 +24,9 @@ def hello_world():
 def bot():
     parametro = str(request.data, 'UTF-8').lower()
     api_trade_url = Configuracion.API_TRADE_URL
-    f = open("salida.txt", "a")
-    f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S")+ " -> " + parametro + " api:" + api_trade_url + "\n")
-    f.close()
+#    f = open("salida.txt", "a")
+#    f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S")+ " -> " + parametro + " api:" + api_trade_url + "\n")
+#    f.close()
 
     # Tomar los valores de configuración del archivo Configuracion.py
     
