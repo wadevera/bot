@@ -80,8 +80,8 @@ class GateBot(GateIO):
         #obtiene el saldo del ticker
         balance = gate_trade.balances()
         #print("balance: " + balance)
-        balances = json.loads(balance)
-        ticker_balance = balances['available'][ticker]
+        #balances = json.loads(balance)
+        ticker_balance = balance['available'][ticker]
         return ticker_balance
 
     def Entrar(self, mensaje:str)->bool:
