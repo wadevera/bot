@@ -48,7 +48,10 @@ class GateBot(GateIO):
         if "perp" in ticker:
             ticker = ticker.replace("perp", "")
         if "_usdt" not in ticker:
-            ticker = ticker+"_usdt"
+            if "usdt" in ticker:
+                ticker = ticker.replace("usdt", "_usdt")
+            else:
+                ticker = ticker+"_usdt"
         return ticker
 
     def Desglozar(self, mensaje:str):
