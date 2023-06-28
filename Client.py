@@ -8,6 +8,7 @@ Provide user specific data and interact with gate.io
 import json
 import Configuracion
 from gateAPI import GateIO
+from GateBot import GateBot
 
 # apiKey APISECRET
 apiKey = Configuracion.GATE_API_KEY
@@ -91,14 +92,17 @@ gate_trade = GateIO(API_TRADE_URL, apiKey, secretKey)
 # withdraw
 # print(gate_trade.withdraw('btc', '88', btcAddress))
 
-currency_pair = 'ron_usdt'  # Reemplaza 'ron_usdt' con el par de divisas correspondiente
+###
+#currency_pair = 'ron_usdt'  # Reemplaza 'ron_usdt' con el par de divisas correspondiente
 
 # Llama a la función ticker para obtener la información del precio actual
-response = gate_trade.ticker(currency_pair)
+#response = gate_trade.ticker(currency_pair)
 
 # Obtiene el precio actual del par de divisas
-current_price = response['last']
-print(current_price)
+#current_price = response['last']
+#print(current_price)
+###
+
 #precio_rebajado = float(current_price) - 0.001 
 
 # Imprime el precio actual
@@ -126,3 +130,20 @@ print(current_price)
 
 # Imprime la respuesta
 #print(response)
+
+##################
+#simular flask
+##################
+parametro = "Comprar RONUSDT"
+api_trade_url = Configuracion.API_TRADE_URL
+
+
+# Tomar los valores de configuración del archivo Configuracion.py
+
+api_key = Configuracion.GATE_API_KEY
+secret_key = Configuracion.GATE_SECRET_KEY
+
+# Modificación en la creación de la instancia de GateBot
+bot = GateBot(api_trade_url, api_key, secret_key)
+
+bot.Entrar(parametro)
