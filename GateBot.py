@@ -82,7 +82,10 @@ class GateBot(GateIO):
         print(balance)
         print(balance['available'])
         #balances = json.loads(balance)
-        ticker_balance = balance['available'][ticker]
+        if ticker in balance['available']:
+            ticker_balance = balance['available'][ticker]
+        else:
+            ticker_balance = 0.0
         return ticker_balance
 
     def Entrar(self, mensaje:str)->bool:
