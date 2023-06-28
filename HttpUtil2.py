@@ -25,7 +25,7 @@ def httpGet(url, resource, params=''):
     return data """
 
 def httpPost(url, resource, params, apiKey, secretKey):
-    full_url = f"https://{url}/{resource}"
+    full_url = f"https://{url}{resource}"
 #    full_url = 'https://' + url + '/' + resource
     headers = {
         "Content-type": "application/x-www-form-urlencoded",
