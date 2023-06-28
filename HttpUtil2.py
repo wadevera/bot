@@ -32,7 +32,7 @@ def httpPost(url, resource, params, apiKey, secretKey):
         "KEY": apiKey,
         "SIGN": getSign(params, secretKey)
     }
-
+    print("full url: " + full_url)
     response = requests.post(full_url, data=params, headers=headers)
     print(response)
     data = response.json()
