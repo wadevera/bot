@@ -79,7 +79,7 @@ class GateBot(GateIO):
     def ObtenerPosicion(self, ticker:str)->float:
         #obtiene el saldo del ticker
         balance = gate_trade.balances()
-        print("balance: " balance)
+        print("balance: " + balance)
         balances = json.loads(balance)
         ticker_balance = balances['available'][ticker]
         return ticker_balance
