@@ -71,6 +71,7 @@ class GateBot(GateIO):
 
         # Llama a la función ticker para obtener la información del precio actual
         response = gate_trade.ticker(currency_pair)
+        print(response)
 
         # Obtiene el precio actual del par de divisas
         current_price = float(response['last'])
