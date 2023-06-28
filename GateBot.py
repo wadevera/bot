@@ -73,7 +73,7 @@ class GateBot(GateIO):
         response = gate_trade.ticker(currency_pair)
 
         # Obtiene el precio actual del par de divisas
-        current_price = response['last']
+        current_price = float(response['last'])
         return usdt_balance / current_price
 
     def ObtenerPosicion(self, ticker:str)->float:
