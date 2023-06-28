@@ -64,8 +64,8 @@ class GateBot(GateIO):
 
     def ObtenerCantidad(self, ticker:str)->float:
         #obtiene el saldo de usdt / precio del ticker
-        balances = json.loads(gate_trade.balances())
-        usdt_balance = balances['available']['USDT']
+        balances = gate_trade.balances()
+        usdt_balance = balances['available'][ticker]
         print(usdt_balance)
         currency_pair = 'ron_usdt'  # Reemplaza 'ron_usdt' con el par de divisas correspondiente
 
