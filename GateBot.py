@@ -53,8 +53,10 @@ class GateBot(GateIO):
 
     def Desglozar(self, mensaje:str):
         x = mensaje.split()
+        print(x)
         self.orden = self.ObtenerComando(x[0])
         self.ticker = self.ObtenerTicker(x[1])
+        print("orden " + self.orden + " \n") 
         print("Desglozar " +self.ticker)
 
     def ObtenerCantidad(self, ticker:str)->float:
