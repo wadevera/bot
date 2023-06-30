@@ -114,18 +114,18 @@ class GateBot(GateIO):
 
         if self.orden == "Comprar":
             f = open("salida.txt", "a")
-            f.write(self.orden + " -> " + self.ticker + " " + cantidad + "\n")
+            f.write(self.orden + " -> " + self.ticker + " " + str(cantidad) + "\n")
             f.close()
-#   """          try:
-#                # Place order buy
-#                print(gate_trade.buy(self.ticker, current_price, cantidad))
-#                self.Log(self.orden + " : " + self.ticker + " Cant: " + str(cantidad))
-#            except Exception as e:
-#                print("Error en la operación:", e)
-#                self.Log("Error en la operación:", e)
-#                if "code" in str(e):
-#                    error_json = json.loads(str(e).replace("'", "\""))
-#                    self.Log("Código de respuesta:" + error_json["code"] + "\n" + "Mensaje de respuesta:"+ error_json["msg"]) """
+            try:
+               # Place order buy
+                print(gate_trade.buy(self.ticker, current_price, cantidad))
+                self.Log(self.orden + " : " + self.ticker + " Cant: " + str(cantidad))
+            except Exception as e:
+                print("Error en la operación:", e)
+                self.Log("Error en la operación:", e)
+                if "code" in str(e):
+                    error_json = json.loads(str(e).replace("'", "\""))
+                    self.Log("Código de respuesta:" + error_json["code"] + "\n" + "Mensaje de respuesta:"+ error_json["msg"]) 
                 
 
         if self.orden == "Vender":

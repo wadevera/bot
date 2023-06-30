@@ -48,7 +48,7 @@ gate_trade = GateIO(API_TRADE_URL, apiKey, secretKey)
 # print(gate_query.orderBooks())
 
 # orders
-# print(gate_query.openOrders())
+#print(gate_query.openOrders())
 
 
 # Below, use methods that make use of the users keys
