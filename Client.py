@@ -54,13 +54,13 @@ gate_trade = GateIO(API_TRADE_URL, apiKey, secretKey)
 # Below, use methods that make use of the users keys
 
 # Ticker
-# print(gate_query.ticker('ron_usdt'))
+#print(gate_query.ticker('ron_usdt'))
 
 # Market depth of pair
 # print(gate_query.orderBook('btc_usdt'))
 
 # Trade History
-# print(gate_query.tradeHistory('btc_usdt'))
+#print(gate_query.tradeHistory('ron_usdt'))
 
 # Get account fund balances
 #print(gate_trade.balances())
@@ -78,16 +78,16 @@ gate_trade = GateIO(API_TRADE_URL, apiKey, secretKey)
 # print(gate_trade.sell('etc_btc', '0.001', '123'))
 
 # Cancel order
-# print(gate_trade.cancelOrder('267040896', 'eth_usdt'))
+#print(gate_trade.cancelOrder('364536690245', 'ron_usdt'))
 
 # Cancel all orders
-#print(gate_trade.cancelAllOrders('0', 'eth_usdt'))
+#print(gate_trade.cancelAllOrders('0', 'ron_usdt'))
 
 # Get order status
 #print(gate_trade.getOrder('323498291104', 'eth_usdt'))
 
 # Get my last 24h trades
-# print(gate_trade.mytradeHistory('etc_btc', '267040896'))
+#print(gate_trade.mytradeHistory('ron_usdt', '267040896'))
 
 # withdraw
 # print(gate_trade.withdraw('btc', '88', btcAddress))
@@ -134,7 +134,7 @@ gate_trade = GateIO(API_TRADE_URL, apiKey, secretKey)
 ##################
 #simular flask
 ##################
-parametro = "Comprar RONUSDT"
+parametro = "Vender RONUSDT"
 api_trade_url = Configuracion.API_TRADE_URL
 
 
@@ -144,6 +144,6 @@ api_key = Configuracion.GATE_API_KEY
 secret_key = Configuracion.GATE_SECRET_KEY
 
 # Modificación en la creación de la instancia de GateBot
-bot = GateBot(api_trade_url, api_key, secret_key)
+#bot = GateBot(api_trade_url, api_key, secret_key)
 
-bot.Entrar(parametro)
+#bot.Entrar(parametro)

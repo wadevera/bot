@@ -129,11 +129,12 @@ class GateBot(GateIO):
                 
 
         if self.orden == "Vender":
-            if pos > 0:
+            if float(pos) > 0:
                 try:
                     # Realiza la venta al precio actual
-                    response = gate_trade.sell(self.ticker, current_price, pos)
-                    self.Log("Cerrando long previo "+ self.ticker + " Cant: " + str(abs(pos)))
+                    #response = gate_trade.sell(self.ticker, current_price, pos)
+                    response = gate_trade.sell(self.ticker, 0.7, pos)
+                    self.Log("Cerrando long previo "+ self.ticker + " Cant: " + pos)
                 except Exception as e:
                         print("Error en la operación:", e)
                         self.Log("Error en la operación:", e)

@@ -5,6 +5,7 @@
 Provide the GateIO class to abstract web interaction
 '''
 
+from datetime import datetime
 from HttpUtil2 import getSign, httpGet, httpPost
 
 class GateIO:
@@ -114,3 +115,8 @@ class GateIO:
         URL = "/api2/1/private/withdraw"
         params = {'currency': currency, 'amount': amount,'address':address}
         return httpPost(self.__url, URL, params, self.__apiKey, self.__secretKey)
+    
+    def Log(self, texto:str):
+        f = open("ordenes.log", "a")
+        f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S")+ " -> " + texto + "\n")
+        f.close()
