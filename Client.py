@@ -54,7 +54,7 @@ gate_trade = GateIO(API_TRADE_URL, apiKey, secretKey)
 # Below, use methods that make use of the users keys
 
 # Ticker
-#print(gate_query.ticker('ron_usdt'))
+print(gate_query.ticker('ron_usdt'))
 
 # Market depth of pair
 # print(gate_query.orderBook('btc_usdt'))

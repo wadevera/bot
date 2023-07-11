@@ -97,7 +97,8 @@ class GateBot(GateIO):
         response = gate_trade.ticker(currency_pair)
 
         # Obtiene el precio actual del par de divisas
-        current_price = response['last']    
+        current_price = response['last'] 
+        precio_venta = float(current_price) - 0.1   
 
         #Desglosar mensaje
         self.Desglozar(mensaje)
@@ -132,8 +133,7 @@ class GateBot(GateIO):
             if float(pos) > 0:
                 try:
                     # Realiza la venta al precio actual
-                    #response = gate_trade.sell(self.ticker, current_price, pos)
-                    response = gate_trade.sell(self.ticker, 0.7, pos)
+                    response = gate_trade.sell(self.ticker, precio_venta, pos)
                     self.Log("Cerrando long previo "+ self.ticker + " Cant: " + pos)
                 except Exception as e:
                         print("Error en la operación:", e)

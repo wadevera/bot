@@ -2,3 +2,5 @@ Comprar -> ron_usdt 11.115485564304464
 Comprar -> ron_usdt 11.180555555555557
 Comprar -> ron_usdt 11.18826096944636
 Comprar -> ron_usdt 9.879979223744293
+Comprar -> ron_usdt 11.90033170804222
+Comprar -> ron_usdt 1.4699397324709687e-08
