@@ -81,7 +81,7 @@ gate_trade = GateIO(API_TRADE_URL, apiKey, secretKey)
 #print(gate_trade.cancelOrder('364536690245', 'ron_usdt'))
 
 # Cancel all orders
-print(gate_trade.cancelAllOrders('0', 'ron_usdt'))
+#print(gate_trade.cancelAllOrders('0', 'ron_usdt'))
 
 # Get order status
 #print(gate_trade.getOrder('323498291104', 'eth_usdt'))
@@ -144,6 +144,8 @@ api_key = Configuracion.GATE_API_KEY
 secret_key = Configuracion.GATE_SECRET_KEY
 
 # Modificación en la creación de la instancia de GateBot
-#bot = GateBot(api_trade_url, api_key, secret_key)
+bot = GateBot(api_trade_url, api_key, secret_key)
 
-#bot.Entrar(parametro)
+bot.Entrar(parametro)
+print(gate_query.openOrders())
+print(gate_trade.balances())

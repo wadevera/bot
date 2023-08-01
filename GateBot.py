@@ -75,7 +75,8 @@ class GateBot(GateIO):
 
         # Obtiene el precio actual del par de divisas
         current_price = float(response['last'])
-
+        if ticker == "RON":
+            return usdt_balance
         return usdt_balance / current_price
 
     def ObtenerPosicion(self, ticker:str)->float:
@@ -98,7 +99,8 @@ class GateBot(GateIO):
 
         # Obtiene el precio actual del par de divisas
         current_price = response['last'] 
-        precio_venta = float(current_price) - 0.1   
+        precio_venta = float(current_price) * 0.992   
+        precio_compra =  float(current_price) * 1.002
 
         #Desglosar mensaje
         self.Desglozar(mensaje)
@@ -108,18 +110,21 @@ class GateBot(GateIO):
         #pos = c.ObtenerPosicion(self.ticker)
         pos = self.ObtenerPosicion("RON")
 
-        #obtener la cantidad a operar segun el ticker
-        cantidad = self.ObtenerCantidad("USDT")
-
-        print(self.orden + "->" + self.ticker + " " + str(cantidad))
+        
 
         if self.orden == "Comprar":
+            #obtener la cantidad a operar segun el ticker
+            cantidad = self.ObtenerCantidad("USDT") * 0.99
+
+            print(self.orden + "->" + self.ticker + " " + str(cantidad))
             f = open("salida.txt", "a")
             f.write(self.orden + " -> " + self.ticker + " " + str(cantidad) + "\n")
             f.close()
             try:
                # Place order buy
-                print(gate_trade.buy(self.ticker, current_price, cantidad))
+                #print(gate_trade.buy(self.ticker, current_price, cantidad))
+                print("precio compra: " + str(precio_compra))
+                print(gate_trade.buy(self.ticker, precio_compra, cantidad))
                 self.Log(self.orden + " : " + self.ticker + " Cant: " + str(cantidad))
             except Exception as e:
                 print("Error en la operación:", e)
@@ -130,6 +135,9 @@ class GateBot(GateIO):
                 
 
         if self.orden == "Vender":
+            #obtener la cantidad a operar segun el ticker
+            cantidad = self.ObtenerCantidad("RON") * 0.99
+            print("precio venta: " + str(precio_venta))
             if float(pos) > 0:
                 try:
                     # Realiza la venta al precio actual
