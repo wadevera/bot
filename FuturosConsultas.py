@@ -25,6 +25,9 @@ class FuturosConsultas(Binance):
         except requests.exceptions.RequestException as e:
             print("Error al hacer la solicitud HTTP:", e)
             return None
+  
+
+
 
     def ObtenerCuentaGeneral(self) -> dict:
         endpoint = self.url + "/fapi/v2/account"

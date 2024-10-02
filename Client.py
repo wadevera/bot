@@ -48,13 +48,13 @@ gate_trade = GateIO(API_TRADE_URL, apiKey, secretKey)
 # print(gate_query.orderBooks())
 
 # orders
-#print(gate_query.openOrders())
+print(gate_query.openOrders())
 
 
 # Below, use methods that make use of the users keys
 
 # Ticker
-#print(gate_query.ticker('ron_usdt'))
+print(gate_query.ticker('ron_usdt'))
 
 # Market depth of pair
 # print(gate_query.orderBook('btc_usdt'))
@@ -81,7 +81,7 @@ gate_trade = GateIO(API_TRADE_URL, apiKey, secretKey)
 #print(gate_trade.cancelOrder('364536690245', 'ron_usdt'))
 
 # Cancel all orders
-print(gate_trade.cancelAllOrders('0', 'ron_usdt'))
+#print(gate_trade.cancelAllOrders('0', 'ron_usdt'))
 
 # Get order status
 #print(gate_trade.getOrder('323498291104', 'eth_usdt'))
@@ -134,7 +134,7 @@ print(gate_trade.cancelAllOrders('0', 'ron_usdt'))
 ##################
 #simular flask
 ##################
-parametro = "Vender RONUSDT"
+parametro = "Comprar RONUSDT"
 api_trade_url = Configuracion.API_TRADE_URL
 
 

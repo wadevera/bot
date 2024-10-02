@@ -10,8 +10,9 @@ c = Consultas()
 o = Ordenes()
 bot = FuturosBot()
 
-#operaciones = c.ObtenerOperaciones("BTCUSDT")
+operaciones = c.ObtenerOperaciones("RONINUSDT")
 #balance = c.ObtenerBalance()
+
 
 #cantidad = c.ObtenerPosicion("ETHUSDT")
 
@@ -19,6 +20,7 @@ bot = FuturosBot()
 ip_address = socket.gethostbyname(socket.gethostname())
 print(ip_address)
 print("\n hola mundo")
+print(operaciones)
 
 #bot.Entrar("Compra   eth")
 
