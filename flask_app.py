@@ -1,6 +1,7 @@
 # A very simple Flask Hello World app for you to get started with...
 #from FuturosBot import FuturosBot
 from GateBot import GateBot
+from MargenBot import MargenBot
 from datetime import datetime
 import Configuracion
 
@@ -23,19 +24,19 @@ def hello_world():
 @app.route('/bot1', methods=['POST'])
 def bot():
     parametro = str(request.data, 'UTF-8').lower()
-    api_trade_url = Configuracion.API_TRADE_URL
+#    api_trade_url = Configuracion.API_TRADE_URL
 #    f = open("salida.txt", "a")
 #    f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S")+ " -> " + parametro + " api:" + api_trade_url + "\n")
 #    f.close()
 
     # Tomar los valores de configuración del archivo Configuracion.py
     
-    api_key = Configuracion.GATE_API_KEY
-    secret_key = Configuracion.GATE_SECRET_KEY
+    #api_key = Configuracion.GATE_API_KEY
+    #secret_key = Configuracion.GATE_SECRET_KEY
 
     # Modificación en la creación de la instancia de GateBot
-    bot = GateBot(api_trade_url, api_key, secret_key)
-
+    #bot = GateBot(api_trade_url, api_key, secret_key)
+    bot = MargenBot()
     bot.Entrar(parametro)
 
     return 'ok'
