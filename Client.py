@@ -144,6 +144,8 @@ api_key = Configuracion.GATE_API_KEY
 secret_key = Configuracion.GATE_SECRET_KEY
 
 # Modificación en la creación de la instancia de GateBot
-#bot = GateBot(api_trade_url, api_key, secret_key)
+bot = GateBot(api_trade_url, api_key, secret_key)
 
-#bot.Entrar(parametro)
+bot.Entrar(parametro)
+print(gate_query.openOrders())
+print(gate_trade.balances())
