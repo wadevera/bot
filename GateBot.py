@@ -75,14 +75,8 @@ class GateBot(GateIO):
 
         # Obtiene el precio actual del par de divisas
         current_price = float(response['last'])
-<<<<<<< HEAD
 
         return (usdt_balance / current_price) * 0.9998
-=======
-        if ticker == "RON":
-            return usdt_balance
-        return usdt_balance / current_price
->>>>>>> ccd133bfe09e8239d911c5cf77d55853dc265c01
 
     def ObtenerPosicion(self, ticker:str)->float:
         #obtiene el saldo del ticker
@@ -104,13 +98,8 @@ class GateBot(GateIO):
 
         # Obtiene el precio actual del par de divisas
         current_price = response['last'] 
-<<<<<<< HEAD
         precio_venta = float(current_price) * 0.0098  
         precio_compra = float(current_price) * 1.0002
-=======
-        precio_venta = float(current_price) * 0.992   
-        precio_compra =  float(current_price) * 1.002
->>>>>>> ccd133bfe09e8239d911c5cf77d55853dc265c01
 
         #Desglosar mensaje
         self.Desglozar(mensaje)
@@ -132,11 +121,6 @@ class GateBot(GateIO):
             f.close()
             try:
                # Place order buy
-<<<<<<< HEAD
-=======
-                #print(gate_trade.buy(self.ticker, current_price, cantidad))
-                print("precio compra: " + str(precio_compra))
->>>>>>> ccd133bfe09e8239d911c5cf77d55853dc265c01
                 print(gate_trade.buy(self.ticker, precio_compra, cantidad))
                 self.Log(self.orden + " : " + self.ticker + " Cant: " + str(cantidad))
             except Exception as e:
