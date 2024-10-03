@@ -78,7 +78,7 @@ class MargenBot:
             
             try:
                 print(f"Colocando una orden de compra a precio de mercado para {cantidad_a_comprar} RONIN...")
-                order_id = c.colocar_orden_margen_mercado('RONINUSDT', 'BUY', cantidad_a_comprar)
+                #order_id = c.colocar_orden_margen_mercado('RONINUSDT', 'BUY', cantidad_a_comprar)
 
                 #o.ComprarMarket(self.ticker, cantidad)
                 self.Log(self.orden + " : " + self.ticker + " Cant: " + str(cantidad_a_comprar))
@@ -95,7 +95,7 @@ class MargenBot:
                 try:
                     cantidad_a_vender = math.floor(saldo_ronin)  # Redondear hacia abajo
                     print(f"Colocando una orden de venta a precio de mercado para {cantidad_a_vender} RONIN...")
-                    order_id = c.colocar_orden_margen_mercado('RONINUSDT', 'SELL', cantidad_a_vender)
+                    #order_id = c.colocar_orden_margen_mercado('RONINUSDT', 'SELL', cantidad_a_vender)
 
                     self.Log("Vendiendo "+ self.ticker + " Cant: " + str(abs(saldo_ronin)) + " a " + str(abs(precio_actual)) + " por " + str(abs(cantidad_a_vender)))
                 except Exception as e:
