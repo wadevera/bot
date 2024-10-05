@@ -1,26 +1,29 @@
 # -*- coding: utf-8 -*-
 
-from FuturosConsultas import FuturosConsultas as Consultas
-from FuturosOrdenes import FuturosOrdenes as Ordenes
-from FuturosBot import FuturosBot
+#from FuturosConsultas import FuturosConsultas as Consultas
+#from FuturosOrdenes import FuturosOrdenes as Ordenes
+#from FuturosBot import FuturosBot
 import json
 import socket
 
-c = Consultas()
-o = Ordenes()
-bot = FuturosBot()
+import requests
 
-operaciones = c.ObtenerOperaciones("RONINUSDT")
-#balance = c.ObtenerBalance()
+def obtener_ip_publica():
+    response = requests.get('https://api.ipify.org?format=json')
+    ip = response.json().get('ip')
+    return ip
+
+ip_publica = obtener_ip_publica()
+print(f"La IP pública de este servidor es: {ip_publica}")
 
 
-#cantidad = c.ObtenerPosicion("ETHUSDT")
 
-#print(cantidad)
-ip_address = socket.gethostbyname(socket.gethostname())
-print(ip_address)
-print("\n hola mundo")
-print(operaciones)
+#ip_address = socket.gethostbyname(socket.gethostname())
+#print(ip_address)
+#print("\n hola mundo")
+#print(operaciones)
+
+
 
 #bot.Entrar("Compra   eth")
 
