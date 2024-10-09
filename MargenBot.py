@@ -66,7 +66,7 @@ class MargenBot:
         
         # Calcular cuántos RONIN se pueden comprar con todo el saldo de USDT, redondeando hacia abajo
         cantidad_a_comprar = math.floor(saldo_usdt / precio_actual)  # Redondear hacia abajo
-        
+        cantidad_a_comprar = 10
 
         #obtener la cantidad a operar segun el ticker
         cantidad = self.ObtenerCantidad(self.ticker)
@@ -78,7 +78,7 @@ class MargenBot:
             
             try:
                 print(f"Colocando una orden de compra a precio de mercado para {cantidad_a_comprar} RONIN...")
-                order_id = c.colocar_orden_margen_mercado('RONINUSDT', 'BUY', 10)
+                order_id = c.colocar_orden_margen_mercado('RONINUSDT', 'BUY', cantidad_a_comprar)
 
                 #o.ComprarMarket(self.ticker, cantidad)
                 self.Log(self.orden + " : " + self.ticker + " Cant: " + str(cantidad_a_comprar))
