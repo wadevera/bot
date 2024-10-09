@@ -40,7 +40,7 @@ def main():
         if cantidad_a_comprar > 0:
             print(f"Colocando una orden de compra a precio de mercado para {cantidad_a_comprar} RONIN...")
             #order_id = margen.colocar_orden_margen_mercado('RONINUSDT', 'BUY', cantidad_a_comprar)
-            #order_id = margen.colocar_orden_margen_mercado('RONINUSDT', 'BUY', 10)
+            order_id = margen.colocar_orden_margen_mercado('RONINUSDT', 'BUY', 10)
         else:
             print("No hay suficiente saldo en USDT para comprar RONIN.")
     else:
