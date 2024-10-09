@@ -30,6 +30,7 @@ class MargenBot:
         return ticker
 
     def Desglozar(self, mensaje:str):
+        print("Desglozando " + mensaje)
         x = mensaje.split()
         self.orden = self.ObtenerComando(x[0])
         self.ticker = self.ObtenerTicker(x[1])
