@@ -32,6 +32,8 @@ class MargenBot:
     def Desglozar(self, mensaje:str):
         print("Desglozando " + mensaje)
         x = mensaje.split()
+        print("comando " + x[0])
+        print("ticker " + x[1])
         self.orden = self.ObtenerComando(x[0])
         self.ticker = self.ObtenerTicker(x[1])
         print("Desglozar " +self.ticker)
@@ -70,7 +72,7 @@ class MargenBot:
         cantidad_a_comprar = 10
 
         #obtener la cantidad a operar segun el ticker
-        cantidad = self.ObtenerCantidad(self.ticker)
+        #cantidad = self.ObtenerCantidad(self.ticker)
 
         print(self.orden + "->" + self.ticker + " " + str(saldo_usdt) + " Pos actual: " + str(saldo_ronin))
 
