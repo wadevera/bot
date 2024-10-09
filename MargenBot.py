@@ -37,11 +37,11 @@ class MargenBot:
 
     def ObtenerCantidad(self, ticker:str)->float:
         #reemplazar por la cantidad pasada desde TView
-        f = open("Cantidades.json", "r")
-        cantidades = json.load(f)
-        f.close
-        if ticker in cantidades:
-            return cantidades[ticker]
+        #f = open("Cantidades.json", "r")
+        #cantidades = json.load(f)
+        #f.close
+        #if ticker in cantidades:
+        #    return cantidades[ticker]
         return 0.0
 
     def Entrar(self, mensaje:str)->bool:
