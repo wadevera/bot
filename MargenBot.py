@@ -84,13 +84,13 @@ class MargenBot:
                 order_id = c.colocar_orden_margen_mercado('RONINUSDT', 'BUY', cantidad_a_comprar)
 
                 #o.ComprarMarket(self.ticker, cantidad)
-                self.Log(self.orden + " : " + self.ticker + " Cant: " + str(cantidad_a_comprar))
+                #self.Log(self.orden + " : " + self.ticker + " Cant: " + str(cantidad_a_comprar))
             except Exception as e:
                 print("Error en la operación:", e)
-                self.Log("Error en la operación:", e)
+                #self.Log("Error en la operación:", e)
                 if "code" in str(e):
                     error_json = json.loads(str(e).replace("'", "\""))
-                    self.Log("Código de respuesta:" + error_json["code"] + "\n" + "Mensaje de respuesta:"+ error_json["msg"])
+                    #self.Log("Código de respuesta:" + error_json["code"] + "\n" + "Mensaje de respuesta:"+ error_json["msg"])
                 
 
         if self.orden == "Vender":
@@ -100,13 +100,13 @@ class MargenBot:
                     print(f"Colocando una orden de venta a precio de mercado para {cantidad_a_vender} RONIN...")
                     order_id = c.colocar_orden_margen_mercado('RONINUSDT', 'SELL', cantidad_a_vender)
 
-                    self.Log("Vendiendo "+ self.ticker + " Cant: " + str(abs(saldo_ronin)) + " a " + str(abs(precio_actual)) + " por " + str(abs(cantidad_a_vender)))
+                    #self.Log("Vendiendo "+ self.ticker + " Cant: " + str(abs(saldo_ronin)) + " a " + str(abs(precio_actual)) + " por " + str(abs(cantidad_a_vender)))
                 except Exception as e:
                         print("Error en la operación:", e)
-                        self.Log("Error en la operación:", e)
+                        #self.Log("Error en la operación:", e)
                         if "code" in str(e):
                             error_json = json.loads(str(e).replace("'", "\""))
-                            self.Log("Código de respuesta:" + error_json["code"] + "\n" + "Mensaje de respuesta:"+ error_json["msg"])
+                            #self.Log("Código de respuesta:" + error_json["code"] + "\n" + "Mensaje de respuesta:"+ error_json["msg"])
             
 
         
