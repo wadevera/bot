@@ -14,7 +14,7 @@ class MargenBot:
     
     def ObtenerComando(self, texto:str)->str:
         compra = ["comprar", "compra", "buy", "long"]
-        venta = ["vender", "vender", "venda", "sell", "short"]
+        venta = ["vender", "vender", "venta", "sell", "short"]
         if texto.lower() in compra:
             return "Comprar"
         if texto.lower() in venta:
