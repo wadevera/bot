@@ -68,7 +68,7 @@ class MargenBot:
             print(f"El precio actual de RONINUSDT es: {precio_actual} USDT")
         
         # Calcular cuántos RONIN se pueden comprar con todo el saldo de USDT, redondeando hacia abajo
-        cantidad_a_comprar = math.floor(saldo_usdt * 0.998 / precio_actual)  # Redondear hacia abajo
+        cantidad_a_comprar = math.floor(saldo_usdt * 0.997 / precio_actual)  # Redondear hacia abajo
         #cantidad_a_comprar = 10
 
         #obtener la cantidad a operar segun el ticker
