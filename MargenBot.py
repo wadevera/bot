@@ -27,7 +27,7 @@ class MargenBot:
         ticker = texto.upper()
         if "PERP" in ticker:
             ticker = ticker.replace("PERP", "")
-        if "USDT" not in ticker:
+        if ("USDT" not in ticker) and ("BTC" not in ticker):
             ticker = ticker+"USDT"
         return ticker
 
