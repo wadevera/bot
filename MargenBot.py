@@ -111,7 +111,7 @@ class MargenBot:
             if saldo_ronin > 0:
                 try:
                     cantidad_a_vender = math.floor(saldo_ronin * 0.998)  # Redondear hacia abajo
-                    cantidad_a_vender = 10
+                    cantidad_a_vender = 20
                     print(f"Colocando una orden de venta a precio de mercado para {cantidad_a_vender} RONIN...")
                     order_id = c.colocar_orden_margen_mercado('RONINUSDT', 'SELL', cantidad_a_vender)
 
