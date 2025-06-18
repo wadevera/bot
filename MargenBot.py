@@ -1,6 +1,7 @@
 import json
 import math
 from MargenConsultas import MargenConsultas as Consultas
+from SpotTrading import SpotTrading
 #from FuturosOrdenes import FuturosOrdenes as Ordenes
 from BinanceAPI import BinanceAPI
 
@@ -11,6 +12,7 @@ class MargenBot:
 
     def __init__(self):
         self.client = BinanceAPI().get_client()
+        self.spot_trader = SpotTrading() 
     
     def ObtenerComando(self, texto:str)->str:
         compra = ["comprar", "compra", "buy", "long"]
@@ -54,8 +56,20 @@ class MargenBot:
         #Desglosar mensaje
         self.Desglozar(mensaje)
 
+        # Determinar tipo de operación basado en el ticker
+        if "BTC" in self.ticker:
+            return self._operar_en_spot()
+        else:
+            return self._operar_en_margen()
+
+        
+    def _operar_en_margen(self):
+        # ... (mover aquí tu lógica actual de operación en margen)
+        # Esencialmente todo el contenido actual de Entrar()
+        c = Consultas()
+        
         #obtener la posicion actual del ticker
-        print("voy a obtener la posicion " + self.ticker)
+        print("voy a obtener la posicion de RON")
         #pos = c.ObtenerPosicion(self.ticker)
         saldos = c.obtener_saldo_margen()
         # Obtener el saldo disponible en USDT
@@ -97,7 +111,7 @@ class MargenBot:
             if saldo_ronin > 0:
                 try:
                     cantidad_a_vender = math.floor(saldo_ronin * 0.998)  # Redondear hacia abajo
-                    #cantidad_a_vender = 10
+                    cantidad_a_vender = 10
                     print(f"Colocando una orden de venta a precio de mercado para {cantidad_a_vender} RONIN...")
                     order_id = c.colocar_orden_margen_mercado('RONINUSDT', 'SELL', cantidad_a_vender)
 
@@ -110,5 +124,62 @@ class MargenBot:
                             #self.Log("Código de respuesta:" + error_json["code"] + "\n" + "Mensaje de respuesta:"+ error_json["msg"])
             
 
+    def _operar_en_spot(self):
+        c = Consultas()
+        spot = self.spot_trader
         
+        # Obtener saldos relevantes
+        saldos_spot = spot.obtener_saldo_spot()
+        saldos_margen = c.obtener_saldo_margen()
+        
+        # Extraer base y quote del ticker (ej: RONINBTC)
+        base = self.ticker.split("BTC")[0]  # "RONIN"
+        quote = "BTC"
+        
+        # Obtener precios
+        precio_actual = spot.obtener_precio_actual(self.ticker)
+        
+        if self.orden == "Comprar":
+            # Comprar RONIN con BTC
+            saldo_btc = saldos_spot.get("BTC", 0)
+            
+            if precio_actual is not None and saldo_btc > 0:
+                # Calcular cantidad máxima a comprar (99% del saldo)
+                cantidad_a_comprar = math.floor((saldo_btc * 0.99) / precio_actual)
+                
+                if cantidad_a_comprar > 0:
+                    print(f"Comprando {cantidad_a_comprar} {base} en spot con BTC...")
+                    try:
+                        spot.colocar_orden_spot_market(
+                            symbol=self.ticker,
+                            side='BUY',
+                            quantity=cantidad_a_comprar
+                        )
+                        return True
+                    except Exception as e:
+                        print(f"Error en compra spot: {e}")
+            else:
+                print("Saldo BTC insuficiente o error de precio")
+        
+        elif self.orden == "Vender":
+            # Vender RONIN por BTC
+            saldo_base = saldos_spot.get(base, 0) or saldos_margen.get(base, 0)
+            
+            if saldo_base > 0:
+                cantidad_a_vender = math.floor(saldo_base * 0.99)
+                print(f"Vendiendo {cantidad_a_vender} {base} en spot por BTC...")
+                
+                try:
+                    spot.colocar_orden_spot_market(
+                        symbol=self.ticker,
+                        side='SELL',
+                        quantity=cantidad_a_vender
+                    )
+                    return True
+                except Exception as e:
+                    print(f"Error en venta spot: {e}")
+            else:
+                print(f"No hay saldo de {base} disponible")
+        
+        return False
 

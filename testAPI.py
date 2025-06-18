@@ -1,8 +1,10 @@
 import math
 from MargenConsultas import MargenConsultas
+from SpotTrading import SpotTrading
 
 def main():
     margen = MargenConsultas()
+    spot = SpotTrading()
     
 
     # Coloca una orden de margen (ajusta los parámetros según sea necesario)
@@ -29,6 +31,14 @@ def main():
     # Obtener el saldo disponible en USDT
     saldo_usdt = saldos.get('USDT', 0)
 
+
+    # Obtener saldo de spot
+    saldo_spot = spot.obtener_saldo_spot().get('BTC', 0)
+    # Obtener precio actual Roninbtc
+    current_price = spot.obtener_precio_actual('RONINBTC')
+
+    print(f"Precio actual: {current_price} BTC")
+
     # Obtener el precio actual de RONINUSDT
     precio_actual = margen.obtener_precio_actual('RONINUSDT')
     
@@ -37,7 +47,7 @@ def main():
         
         # Calcular cuántos RONIN se pueden comprar con todo el saldo de USDT, redondeando hacia abajo
         #cantidad_a_comprar = math.floor(saldo_usdt / precio_actual)  # Redondear hacia abajo
-        cantidad_a_comprar = 10
+        cantidad_a_comprar = 0
         if cantidad_a_comprar > 0:
             print(f"Colocando una orden de compra a precio de mercado para {cantidad_a_comprar} RONIN...")
             order_id = margen.colocar_orden_margen_mercado('RONINUSDT', 'BUY', cantidad_a_comprar)
@@ -52,7 +62,7 @@ def main():
     if saldo_ronin > 0:
         cantidad_a_vender = math.floor(saldo_ronin)  # Redondear hacia abajo
         print(f"Colocando una orden de venta a precio de mercado para {cantidad_a_vender} RONIN...")
-        order_id = margen.colocar_orden_margen_mercado('RONINUSDT', 'SELL', cantidad_a_vender)
+        #order_id = margen.colocar_orden_margen_mercado('RONINUSDT', 'SELL', cantidad_a_vender)
     else:
         print("No hay saldo de RONIN disponible para vender.")
     
