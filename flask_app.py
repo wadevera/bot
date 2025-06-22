@@ -2,6 +2,7 @@
 #from FuturosBot import FuturosBot
 from GateBot import GateBot
 from MargenBot import MargenBot
+from Margen2Bot import Margen2Bot
 from datetime import datetime
 import Configuracion
 
@@ -36,7 +37,7 @@ def bot():
 
     # Modificación en la creación de la instancia de GateBot
     #bot = GateBot(api_trade_url, api_key, secret_key)
-    bot = MargenBot()
+    bot = Margen2Bot()
     bot.Entrar(parametro)
 
     return 'ok'
