@@ -197,45 +197,75 @@ class Margen2Bot:
 
     def Entrar(self, mensaje: str):
         """Método principal que procesa todos los tipos de mensajes"""
+        # Convertir a minúsculas y eliminar espacios adicionales
         mensaje = mensaje.lower().strip()
+        print(f"Procesando comando: '{mensaje}'")
         
-        # Manejo de mensajes específicos
-        if mensaje in ["comprar ronusdt", "buy ronusdt"]:
-            return self.operacion_margen_directa('RONINUSDT', 'comprar')
+        # Manejo de mensajes específicos con variaciones
+        if "ronusdt" in mensaje:
+            if "compra" in mensaje or "comprar" in mensaje or "buy" in mensaje:
+                return self.operacion_margen_directa('RONINUSDT', 'comprar')
+            elif "venta" in mensaje or "vender" in mensaje or "sell" in mensaje:
+                return self.operacion_margen_directa('RONINUSDT', 'vender')
         
-        elif mensaje in ["vender ronusdt", "sell ronusdt"]:
-            return self.operacion_margen_directa('RONINUSDT', 'vender')
+        elif "roninbtc" in mensaje:
+            if "compra" in mensaje or "comprar" in mensaje or "buy" in mensaje:
+                return self.comprar_ronin_con_btc()
+            elif "venta" in mensaje or "vender" in mensaje or "sell" in mensaje:
+                return self.vender_ronin_por_btc()
         
-        elif mensaje in ["comprar roninbtc", "buy roninbtc"]:
-            return self.comprar_ronin_con_btc()
+        # Manejar variaciones de escritura
+        elif "roninusdt" in mensaje:
+            if "compra" in mensaje or "comprar" in mensaje or "buy" in mensaje:
+                return self.operacion_margen_directa('RONINUSDT', 'comprar')
+            elif "venta" in mensaje or "vender" in mensaje or "sell" in mensaje:
+                return self.operacion_margen_directa('RONINUSDT', 'vender')
         
-        elif mensaje in ["vender roninbtc", "sell roninbtc"]:
-            return self.vender_ronin_por_btc()
+        # Comando genérico de compra/venta
+        elif "comprar" in mensaje or "compra" in mensaje or "buy" in mensaje:
+            # Extraer el ticker del mensaje
+            partes = mensaje.split()
+            ticker = [p for p in partes if p not in ['comprar', 'compra', 'buy']][0]
+            return self.operacion_margen_directa(ticker, 'comprar')
+        
+        elif "vender" in mensaje or "venta" in mensaje or "sell" in mensaje:
+            # Extraer el ticker del mensaje
+            partes = mensaje.split()
+            ticker = [p for p in partes if p not in ['vender', 'venta', 'sell']][0]
+            return self.operacion_margen_directa(ticker, 'vender')
         
         else:
-            # Manejo genérico por si acaso
-            if "comprar" in mensaje:
-                return self.operacion_margen_directa(mensaje.split()[1], 'comprar')
-            elif "vender" in mensaje:
-                return self.operacion_margen_directa(mensaje.split()[1], 'vender')
-            else:
-                print(f"Comando no reconocido: {mensaje}")
-                return False
+            print(f"Comando no reconocido: {mensaje}")
+            return False
     
     def operacion_margen_directa(self, simbolo: str, accion: str):
-        """Maneja operaciones directas en margen como antes"""
+        """Maneja operaciones directas en margen"""
+        # Normalizar el símbolo
         if "USDT" not in simbolo:
-            simbolo += "USDT"
+            simbolo = simbolo.upper() + "USDT"
+        else:
+            simbolo = simbolo.upper()
             
         base = simbolo.replace('USDT', '')
+        print(f"Operación directa en margen: {accion} {simbolo}")
         
         if accion == 'comprar':
             precio = self.obtener_precio(simbolo)
             saldo_usdt = self.obtener_saldo('USDT')
+            
+            if saldo_usdt <= 0:
+                print("Error: No hay saldo de USDT para comprar")
+                return False
+                
             #cantidad = math.floor(saldo_usdt * 0.99 / precio)
             cantidad = 20
             return self.comprar_mercado(simbolo, cantidad)
         
         elif accion == 'vender':
             saldo_base = self.obtener_saldo(base)
+            
+            if saldo_base <= 0:
+                print(f"Error: No hay saldo de {base} para vender")
+                return False
+                
             return self.vender_mercado(simbolo, saldo_base * 0.99)
