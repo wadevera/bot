@@ -278,8 +278,7 @@ class Margen2Bot:
                 print("Error: No hay saldo de USDT para comprar")
                 return False
                 
-            #cantidad = math.floor(saldo_usdt * 0.99 / precio)
-            cantidad = 20
+            cantidad = math.floor(saldo_usdt * 0.99 / precio)
             return self.comprar_mercado(simbolo, cantidad)
         
         elif accion == 'vender':
