@@ -17,23 +17,44 @@ class Margen2Bot:
     def obtener_precio(self, simbolo: str) -> float:
         """Obtiene el precio actual de un símbolo"""
         return self.consultas.obtener_precio_actual(simbolo)
+    def obtener_precision_activo(self, activo: str) -> int:
+        """Obtiene la precisión decimal permitida para un activo"""
+        # Binance requiere diferentes precisiones para diferentes activos
+        precisiones = {
+            'BTC': 6,    # 8 decimales pero en trading suelen ser 6
+            'ETH': 4,
+            'RONIN': 0,  # RONIN solo permite números enteros
+            'USDT': 2
+        }
+        return precisiones.get(activo.upper(), 2)  # Por defecto 2 decimales
+    
+    def ajustar_cantidad(self, activo: str, cantidad: float) -> float:
+        """Ajusta la cantidad a la precisión permitida por el activo"""
+        precision = self.obtener_precision_activo(activo)
+        
+        if activo == 'RONIN':
+            # Para RONIN, debe ser un número entero (sin decimales)
+            return math.floor(cantidad)
+        
+        # Para otros activos, redondear a la precisión permitida
+        return round(cantidad, precision)
     
     def comprar_mercado(self, simbolo: str, cantidad: float):
         """Coloca una orden de compra a mercado en margen"""
         lado = 'BUY'
         base = simbolo.replace('USDT', '')
         
-        # Para BTC ajustar decimales
-        if base == 'BTC':
-            cantidad = round(cantidad, 6)
+        # Ajustar cantidad según precisión permitida
+        cantidad_ajustada = self.ajustar_cantidad(base, cantidad)
+        print(f"Cantidad ajustada para {base}: {cantidad} → {cantidad_ajustada}")
         
         try:
             orden = self.consultas.colocar_orden_margen_mercado(
                 symbol=simbolo,
                 side=lado,
-                quantity=cantidad
+                quantity=cantidad_ajustada
             )
-            self.registro_operaciones.append(('COMPRA', base, cantidad, self.obtener_precio(simbolo)))
+            self.registro_operaciones.append(('COMPRA', base, cantidad_ajustada, self.obtener_precio(simbolo)))
             return orden
         except Exception as e:
             print(f"Error en compra: {e}")
@@ -44,22 +65,22 @@ class Margen2Bot:
         lado = 'SELL'
         base = simbolo.replace('USDT', '')
         
-        # Para BTC ajustar decimales
-        if base == 'BTC':
-            cantidad = round(cantidad, 6)
+        # Ajustar cantidad según precisión permitida
+        cantidad_ajustada = self.ajustar_cantidad(base, cantidad)
+        print(f"Cantidad ajustada para {base}: {cantidad} → {cantidad_ajustada}")
         
         try:
             orden = self.consultas.colocar_orden_margen_mercado(
                 symbol=simbolo,
                 side=lado,
-                quantity=cantidad
+                quantity=cantidad_ajustada
             )
-            self.registro_operaciones.append(('VENTA', base, cantidad, self.obtener_precio(simbolo)))
+            self.registro_operaciones.append(('VENTA', base, cantidad_ajustada, self.obtener_precio(simbolo)))
             return orden
         except Exception as e:
             print(f"Error en venta: {e}")
             return None
-    
+        
     def comprar_ronin_con_btc(self):
         """Compra RONIN usando BTC a través de USDT (conversión en dos pasos)"""
         print("\n=== COMPRA RONIN CON BTC ===")
