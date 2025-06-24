@@ -20,24 +20,23 @@ def hello_world():
 
 
 
-
-
 @app.route('/bot1', methods=['POST'])
 def bot():
+    # Parsear el mensaje de TradingView
     parametro = str(request.data, 'UTF-8').lower()
-#    api_trade_url = Configuracion.API_TRADE_URL
-#    f = open("salida.txt", "a")
-#    f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S")+ " -> " + parametro + " api:" + api_trade_url + "\n")
-#    f.close()
-
-    # Tomar los valores de configuración del archivo Configuracion.py
     
-    #api_key = Configuracion.GATE_API_KEY
-    #secret_key = Configuracion.GATE_SECRET_KEY
-
-    # Modificación en la creación de la instancia de GateBot
-    #bot = GateBot(api_trade_url, api_key, secret_key)
-    bot = Margen2Bot()
-    bot.Entrar(parametro)
+    # Extraer el precio si está presente en el mensaje (formato: "comando @precio")
+    precio_alerta = None
+    if '@' in parametro:
+        comando, precio_str = parametro.split('@', 1)
+        try:
+            precio_alerta = float(precio_str.strip())
+            parametro = comando.strip()
+        except ValueError:
+            print(f"Formato de precio inválido: {precio_str}")
+    
+    bot = MargenBot()
+    # Pasar el precio de alerta al bot si está disponible
+    bot.Entrar(parametro, precio_alerta=precio_alerta)
 
     return 'ok'

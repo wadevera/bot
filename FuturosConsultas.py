@@ -1,30 +1,36 @@
-from Binance import Binance
+from BinanceAPI import BinanceAPI
+
 import requests
 
-class FuturosConsultas(Binance):
-    def __init__(self):
-        Binance.__init__(self)
-
-    def ObtenerOperaciones(self, simbolo:str, limite:int=500):
-        endpoint = self.url + "/fapi/v1/trades"
-        parametro = "&symbol=" + simbolo.upper()
-        if limite !=500 and limite <= 1000 and limite>0:
-            parametro += "&limit=" + str(limite)
-        r = requests.get(endpoint, parametro)
-        return r.json()
-        
-    def ObtenerBalance(self):
-        endpoint = self.url + "/fapi/v2/balance"
-        parametros = "timestamp=" + str(self.ObtenerFechaServer())
-        parametros = self.Firmar(parametros)
-        h = self.Encabezados(self.apiKey)
+class FuturosConsultas:
+    def __init__(self, client=None):
+        self.client = client or BinanceAPI().get_futures_client()
+    
+    def colocar_orden_futuros_mercado(self, symbol: str, side: str, quantity: float):
+        """Coloca una orden a mercado en futuros"""
         try:
-            response = requests.get(endpoint, params=parametros, headers=h)
-            response.raise_for_status() # genera una excepción si la solicitud no fue exitosa
-            return response.json()
-        except requests.exceptions.RequestException as e:
-            print("Error al hacer la solicitud HTTP:", e)
+            order = self.client.futures_create_order(
+                symbol=symbol,
+                side=side,
+                type='MARKET',
+                quantity=quantity
+            )
+            return order
+        except Exception as e:
+            print(f"Error en orden futuros: {e}")
             return None
+    
+    def obtener_saldo_futuros(self, activo: str) -> float:
+        """Obtiene el saldo disponible en futuros"""
+        try:
+            balances = self.client.futures_account_balance()
+            for balance in balances:
+                if balance['asset'] == activo:
+                    return float(balance['availableBalance'])
+            return 0.0
+        except Exception as e:
+            print(f"Error obteniendo saldo futuros: {e}")
+            return 0.0
   
 
 
