@@ -88,13 +88,13 @@ class MargenBot:
         
         try:
             # 1. Obtener saldo BTC en futuros
-            saldo_btc = self.consultas_futuros.obtener_saldo_futuros('BTC')
+            saldo_btc = consultas_futuros.obtener_saldo_futuros('BTC')
             if saldo_btc <= 0:
                 print("Error: No hay saldo de BTC en futuros")
                 return False
             
             # Obtener precio actual de BTC/USDT
-            precio_btc_usdt = self.consultas_futuros.obtener_precio_actual('BTCUSDT')
+            precio_btc_usdt = consultas_futuros.obtener_precio_actual('BTCUSDT')
             print(f"Saldo BTC en futuros: {saldo_btc:.6f} | Precio: {precio_btc_usdt:.2f} USDT")
             
             # 2. Vender BTC por USDT en futuros
@@ -112,12 +112,12 @@ class MargenBot:
             
             # Esperar y obtener nuevo saldo USDT en futuros
             time.sleep(3)
-            saldo_usdt = self.consultas_futuros.obtener_saldo_futuros('USDT')
+            saldo_usdt = consultas_futuros.obtener_saldo_futuros('USDT')
             print(f"USDT obtenidos en futuros: {saldo_usdt:.2f}")
             
             # 3. Comprar RONIN con USDT en futuros
             print("Comprando RONIN con USDT en futuros...")
-            precio_ronin = self.consultas_futuros.obtener_precio_actual('RONINUSDT')
+            precio_ronin = consultas_futuros.obtener_precio_actual('RONINUSDT')
             
             # Calcular cantidad de RONIN (ajustar a enteros)
             cantidad_ronin = math.floor(saldo_usdt / precio_ronin)
@@ -200,17 +200,17 @@ class MargenBot:
         print("\n=== VENTA FUTUROS RONIN POR BTC ===")
         
         # 1. Obtener saldo RONIN en futuros
-        saldo_ronin = self.consultas_futuros.obtener_saldo_futuros('RONIN')
+        saldo_ronin = consultas_futuros.obtener_saldo_futuros('RONIN')
         
         # 2. Vender RONIN por USDT en futuros
         self.operar_en_mercado('RONINUSDT', 'vender', saldo_ronin, tipo="futuros")
         
         # 3. Obtener nuevo saldo USDT en futuros
         time.sleep(3)
-        saldo_usdt = self.consultas_futuros.obtener_saldo_futuros('USDT')
+        saldo_usdt = consultas_futuros.obtener_saldo_futuros('USDT')
         
         # 4. Comprar BTC con USDT en futuros
-        precio_btc = self.consultas_futuros.obtener_precio_actual('BTCUSDT')
+        precio_btc = consultas_futuros.obtener_precio_actual('BTCUSDT')
         cantidad_btc = saldo_usdt / precio_btc
         self.operar_en_mercado('BTCUSDT', 'comprar', cantidad_btc, tipo="futuros")
         
