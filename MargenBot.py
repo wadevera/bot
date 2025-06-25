@@ -6,7 +6,6 @@ from BinanceAPI import BinanceAPI
 
 class MargenBot:
     def __init__(self):
-        self.client = BinanceAPI().get_client()
         self.consultas = MargenConsultas()
         self.consultas_futuros = FuturosConsultas()
         self.registro_operaciones = []
