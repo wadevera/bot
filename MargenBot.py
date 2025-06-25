@@ -198,9 +198,6 @@ class MargenBot:
     
     def vender_ronin_por_btc_futuros(self):
         """Vende RONIN y compra BTC en futuros"""
-        if not self.consultas_futuros:
-            print("Error: Servicio de futuros no disponible")
-            return False
             
         print("\n=== VENTA FUTUROS RONIN POR BTC ===")
         
