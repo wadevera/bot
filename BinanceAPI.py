@@ -23,6 +23,10 @@ class BinanceAPI:
     def get_client(self):
         return self.client
     
+    def get_futures_client(self):
+        """Cliente específico para futuros"""
+        return Client(api_key=self.api_key, api_secret=self.api_secret, testnet=False)
+    
     def Log(self, texto:str):
         f = open("ordenes.log", "a")
         f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S")+ " -> " + texto + "\n")
