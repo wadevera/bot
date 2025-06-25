@@ -1,8 +1,8 @@
 from BinanceAPI import BinanceAPI
 
 class FuturosConsultas:
-    def __init__(self, client=None):
-        self.client = client or BinanceAPI().get_futures_client()
+   # def __init__(self, client=None):
+        
     
     def obtener_saldo_futuros(self, activo: str) -> float:
         """Obtiene el saldo disponible de un activo en futuros"""
