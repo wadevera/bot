@@ -37,6 +37,8 @@ def bot():
     
     bot = MargenBot()
     # Pasar el precio de alerta al bot si está disponible
-    bot.Entrar(parametro, precio_alerta=precio_alerta)
+    bot.Entrar(parametro)
+
+    #bot.Entrar(parametro, precio_alerta=precio_alerta)
 
     return 'ok'
