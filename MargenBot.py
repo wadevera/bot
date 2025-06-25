@@ -1,6 +1,7 @@
 import math
 import time
 from MargenConsultas import MargenConsultas
+from FuturosConsultas import FuturosConsultas
 from BinanceAPI import BinanceAPI
 
 class MargenBot:
