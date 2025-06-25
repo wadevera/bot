@@ -26,14 +26,14 @@ def bot():
     parametro = str(request.data, 'UTF-8').lower()
     
     # Extraer el precio si está presente en el mensaje (formato: "comando @precio")
-    precio_alerta = None
-    if '@' in parametro:
-        comando, precio_str = parametro.split('@', 1)
-        try:
-            precio_alerta = float(precio_str.strip())
-            parametro = comando.strip()
-        except ValueError:
-            print(f"Formato de precio inválido: {precio_str}")
+    #precio_alerta = None
+    #if '@' in parametro:
+    #    comando, precio_str = parametro.split('@', 1)
+    #    try:
+    #        precio_alerta = float(precio_str.strip())
+    #        parametro = comando.strip()
+    #    except ValueError:
+    #        print(f"Formato de precio inválido: {precio_str}")
     
     bot = MargenBot()
     # Pasar el precio de alerta al bot si está disponible
