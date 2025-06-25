@@ -124,7 +124,7 @@ class Margen2Bot:
     
     def vender_ronin_por_btc(self):
         """Vende RONIN y compra BTC a través de USDT (conversión en dos pasos)"""
-    #    print("\n=== VENTA RONIN POR BTC ===")
+        print("\n=== VENTA RONIN POR BTC ===")
         
         # 1. Obtener saldo RONIN
         saldo_ronin = self.obtener_saldo('RONIN')
