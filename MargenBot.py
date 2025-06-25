@@ -93,7 +93,7 @@ class MargenBot:
             if saldo_btc <= 0:
                 print("Error: No hay saldo de BTC en futuros")
                 return False
-            self.
+            
             # Obtener precio actual de BTC/USDT
             precio_btc_usdt = self.consultas_futuros.obtener_precio_actual('BTCUSDT')
             print(f"Saldo BTC en futuros: {saldo_btc:.6f} | Precio: {precio_btc_usdt:.2f} USDT")
