@@ -99,31 +99,62 @@ class MargenBot:
                 return False
             
             # 2. Esperar y obtener nuevo saldo USDT en futuros
-            time.sleep(3)
+            time.sleep(5)  # Aumentar tiempo de espera
             saldo_usdt = self.futuros_ops.futuros.obtener_saldo_futuros('USDT')
             print(f"USDT obtenidos en futuros: {saldo_usdt:.2f}")
             
-            # 3. Comprar RONIN con todo el USDT disponible
+            # 3. Comprar RONIN con un 99% del saldo disponible (margen de seguridad)
             print("Comprando RONIN con USDT en futuros...")
-            orden_compra_ronin = self.futuros_ops.comprar_ronin(porcentaje=1.0)
+            
+            # Obtener precio actual
+            precio_ronin = self.futuros_ops.futuros.obtener_precio_actual('RONINUSDT')
+            
+            # Calcular cantidad segura (99% del saldo)
+            cantidad_segura = int((saldo_usdt * 0.99) / precio_ronin)
+            
+            # Verificar mínimo 1 RONIN
+            if cantidad_segura < 1:
+                print("Error: Saldo insuficiente para comprar al menos 1 RONIN")
+                return False
+            
+            # Establecer apalancamiento a 2x para RONIN
+            self.futuros_ops.futuros.establecer_apalancamiento('RONINUSDT', 2)
+            print("Apalancamiento establecido a 2x para RONINUSDT")
+            
+            # Comprar con cantidad segura
+            orden_compra_ronin = self.futuros_ops.comprar_ronin(
+                porcentaje=1.0, 
+                apalancamiento=2,
+                cantidad_fija=cantidad_segura  # Necesitarás agregar este parámetro
+            )
+            
             if not orden_compra_ronin:
                 print("Error al comprar RONIN en futuros")
+                # Restaurar apalancamiento por defecto
+                self.futuros_ops.futuros.establecer_apalancamiento('RONINUSDT', 1)
                 return False
             
             # 4. Mostrar resultados
             print("\nResultado de la operación en futuros:")
-            print(f"USDT utilizados: {saldo_usdt:.2f}")
+            print(f"USDT utilizados: {saldo_usdt * 0.99:.2f} (de {saldo_usdt:.2f} disponibles)")
             pos_ronin = self.futuros_ops.futuros.obtener_posicion('RONINUSDT')
             if pos_ronin:
                 cantidad_ronin = abs(float(pos_ronin['cantidad']))
-                precio_ronin = float(pos_ronin['entrada']) if 'entrada' in pos_ronin else 0.0
+                precio_ronin_real = float(pos_ronin['entrada']) if 'entrada' in pos_ronin else 0.0
                 print(f"RONIN comprados: {cantidad_ronin:.0f}")
-                print(f"Precio promedio RONIN: {precio_ronin:.4f} USDT")
+                print(f"Precio promedio RONIN: {precio_ronin_real:.4f} USDT")
             
+            # Restaurar apalancamiento a 1x
+            self.futuros_ops.futuros.establecer_apalancamiento('RONINUSDT', 1)
             return True
         
         except Exception as e:
             print(f"Error en compra futuros RONIN con BTC: {str(e)}")
+            # Intentar restaurar apalancamiento en caso de error
+            try:
+                self.futuros_ops.futuros.establecer_apalancamiento('RONINUSDT', 1)
+            except:
+                pass
             return False
              
     def comprar_ronin_con_btc(self):

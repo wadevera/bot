@@ -31,9 +31,43 @@ class FuturosOperaciones:
         """Vende el BTC disponible en futuros"""
         return self._vender_activo('BTCUSDT', 'BTC', porcentaje, apalancamiento)
     
-    def comprar_ronin(self, porcentaje=0.95, apalancamiento=1):
-        """Compra RONINUSDT con un porcentaje del saldo disponible"""
-        return self._comprar_activo('RONINUSDT', 'USDT', porcentaje, apalancamiento)
+  #  def comprar_ronin(self, porcentaje=0.95, apalancamiento=1):
+   #     """Compra RONINUSDT con un porcentaje del saldo disponible"""
+  #      return self._comprar_activo('RONINUSDT', 'USDT', porcentaje, apalancamiento)
+
+    def comprar_ronin(self, porcentaje=0.95, apalancamiento=1, cantidad_fija=None):
+        """Compra RONIN con opción de cantidad fija"""
+        if cantidad_fija:
+            return self._comprar_activo_fija('RONINUSDT', 'USDT', cantidad_fija, apalancamiento)
+        else:
+            return self._comprar_activo('RONINUSDT', 'USDT', porcentaje, apalancamiento)
+    
+    def _comprar_activo_fija(self, symbol, asset, cantidad, apalancamiento):
+        """Función para comprar con cantidad fija"""
+        try:
+            # Establecer apalancamiento
+            self.futuros.establecer_apalancamiento(symbol, apalancamiento)
+            
+            # Verificar cantidad mínima
+            min_qty = self.futuros.obtener_minimo_qty(symbol)
+            if cantidad < min_qty:
+                print(f"Cantidad insuficiente. Mínimo requerido: {min_qty}")
+                return None
+            
+            print(f"Comprando {cantidad} {symbol.replace('USDT', '')}...")
+            
+            # Colocar orden
+            orden = self.futuros.colocar_orden_futuros_market(
+                symbol=symbol,
+                side='BUY',
+                quantity=cantidad,
+                leverage=apalancamiento
+            )
+            
+            return orden
+        except Exception as e:
+            print(f"Error en la compra de {symbol}: {e}")
+            return None
     
     def vender_ronin(self, porcentaje=1.0, apalancamiento=1):
         """Vende el RONIN disponible en futuros"""
