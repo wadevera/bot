@@ -2,6 +2,7 @@ import math
 import time
 from MargenConsultas import MargenConsultas
 from FuturosConsultas import FuturosConsultas 
+from FuturosOperaciones import FuturosOperaciones  
 from BinanceAPI import BinanceAPI
 
 class MargenBot:
@@ -9,6 +10,9 @@ class MargenBot:
         self.consultas = MargenConsultas()
         self.consultas_futuros = FuturosConsultas()
         self.registro_operaciones = []
+        
+        # Inicializa FuturosOperaciones
+        self.futuros_ops = FuturosOperaciones()
     
     def obtener_saldo(self, activo: str) -> float:
         """Obtiene el saldo disponible de un activo en margen"""
@@ -83,76 +87,44 @@ class MargenBot:
             return None
 
     def comprar_ronin_con_btc_futuros(self):
-        """Compra RONIN usando BTC en futuros (conversión en dos pasos)"""
+        """Compra RONIN usando BTC en futuros usando FuturosOperaciones"""
         print("\n=== COMPRA FUTUROS RONIN CON BTC ===")
         
         try:
-            # 1. Obtener saldo BTC en futuros
-            saldo_btc = self.consultas_futuros.obtener_saldo_futuros('BTC')
-            if saldo_btc <= 0:
-                print("Error: No hay saldo de BTC en futuros")
-                return False
-            
-            # Obtener precio actual de BTC/USDT
-            precio_btc_usdt = self.consultas_futuros.obtener_precio_actual('BTCUSDT')
-            print(f"Saldo BTC en futuros: {saldo_btc:.6f} | Precio: {precio_btc_usdt:.2f} USDT")
-            
-            # 2. Vender BTC por USDT en futuros
+            # 1. Vender todo el BTC disponible en futuros
             print("Vendiendo BTC por USDT en futuros...")
-            orden_venta_btc = self.operar_en_mercado(
-                simbolo='BTCUSDT',
-                accion='vender',
-                cantidad=saldo_btc,
-                tipo="futuros"
-            )
-            
+            orden_venta_btc = self.futuros_ops.vender_btc(porcentaje=1.0)
             if not orden_venta_btc:
                 print("Error al vender BTC en futuros")
                 return False
             
-            # Esperar y obtener nuevo saldo USDT en futuros
+            # 2. Esperar y obtener nuevo saldo USDT en futuros
             time.sleep(3)
-            saldo_usdt = self.consultas_futuros.obtener_saldo_futuros('USDT')
+            saldo_usdt = self.futuros_ops.futuros.obtener_saldo_futuros('USDT')
             print(f"USDT obtenidos en futuros: {saldo_usdt:.2f}")
             
-            # 3. Comprar RONIN con USDT en futuros
+            # 3. Comprar RONIN con todo el USDT disponible
             print("Comprando RONIN con USDT en futuros...")
-            precio_ronin = self.consultas_futuros.obtener_precio_actual('RONINUSDT')
-            
-            # Calcular cantidad de RONIN (ajustar a enteros)
-            cantidad_ronin = math.floor(saldo_usdt / precio_ronin)
-            
-            orden_compra_ronin = self.operar_en_mercado(
-                simbolo='RONINUSDT',
-                accion='comprar',
-                cantidad=cantidad_ronin,
-                tipo="futuros"
-            )
-            
+            orden_compra_ronin = self.futuros_ops.comprar_ronin(porcentaje=1.0)
             if not orden_compra_ronin:
                 print("Error al comprar RONIN en futuros")
                 return False
             
             # 4. Mostrar resultados
             print("\nResultado de la operación en futuros:")
-            print(f"BTC iniciales: {saldo_btc:.6f}")
-            print(f"RONIN comprados: {cantidad_ronin:.0f}")
-            print(f"Precio promedio RONIN: {precio_ronin:.4f} USDT")
-            
-            # Registrar operación
-            self.registro_operaciones.append((
-                'COMPRA FUTUROS', 
-                'RONIN', 
-                cantidad_ronin, 
-                precio_ronin,
-                time.time()
-            ))
+            print(f"USDT utilizados: {saldo_usdt:.2f}")
+            pos_ronin = self.futuros_ops.futuros.obtener_posicion('RONINUSDT')
+            if pos_ronin:
+                cantidad_ronin = abs(float(pos_ronin['cantidad']))
+                precio_ronin = float(pos_ronin['entrada']) if 'entrada' in pos_ronin else 0.0
+                print(f"RONIN comprados: {cantidad_ronin:.0f}")
+                print(f"Precio promedio RONIN: {precio_ronin:.4f} USDT")
             
             return True
         
         except Exception as e:
             print(f"Error en compra futuros RONIN con BTC: {str(e)}")
-            return False   
+            return False
              
     def comprar_ronin_con_btc(self):
         """Compra RONIN usando BTC a través de USDT (conversión en dos pasos)"""
@@ -196,38 +168,78 @@ class MargenBot:
         return True
     
     def vender_ronin_por_btc_futuros(self):
-        """Vende RONIN y compra BTC en futuros"""
-            
+        """Vende RONIN y compra BTC en futuros usando FuturosOperaciones"""
         print("\n=== VENTA FUTUROS RONIN POR BTC ===")
         
         try:
-            # 1. Obtener saldo RONIN en futuros
-            saldo_ronin = self.consultas_futuros.obtener_saldo_futuros('RONIN')
-            if saldo_ronin <= 0:
-                print("Error: No hay saldo de RONIN en futuros")
+            # 1. Vender todo el RONIN disponible en futuros
+            print("Vendiendo RONIN por USDT en futuros...")
+            orden_venta_ronin = self.futuros_ops.vender_ronin(porcentaje=1.0)
+            if not orden_venta_ronin:
+                print("Error al vender RONIN en futuros")
                 return False
             
-            # ... (resto de la implementación que ya tenías)
-            
-        
-        
-            # 2. Vender RONIN por USDT en futuros
-            self.operar_en_mercado('RONINUSDT', 'vender', saldo_ronin, tipo="futuros")
-            
-            # 3. Obtener nuevo saldo USDT en futuros
+            # 2. Esperar y obtener nuevo saldo USDT en futuros
             time.sleep(3)
-            saldo_usdt = self.consultas_futuros.obtener_saldo_futuros('USDT')
+            saldo_usdt = self.futuros_ops.futuros.obtener_saldo_futuros('USDT')
+            print(f"USDT obtenidos en futuros: {saldo_usdt:.2f}")
             
-            # 4. Comprar BTC con USDT en futuros
-            precio_btc = self.consultas_futuros.obtener_precio_actual('BTCUSDT')
-            cantidad_btc = saldo_usdt / precio_btc
-            self.operar_en_mercado('BTCUSDT', 'comprar', cantidad_btc, tipo="futuros")
-                        
+            # 3. Comprar BTC con todo el USDT disponible
+            print("Comprando BTC con USDT en futuros...")
+            orden_compra_btc = self.futuros_ops.comprar_btc(porcentaje=1.0)
+            if not orden_compra_btc:
+                print("Error al comprar BTC en futuros")
+                return False
+            
+            # 4. Mostrar resultados
+            print("\nResultado de la operación en futuros:")
+            print(f"USDT utilizados: {saldo_usdt:.2f}")
+            pos_btc = self.futuros_ops.futuros.obtener_posicion('BTCUSDT')
+            if pos_btc:
+                cantidad_btc = abs(float(pos_btc['cantidad']))
+                precio_btc = float(pos_btc['entrada']) if 'entrada' in pos_btc else 0.0
+                print(f"BTC comprados: {cantidad_btc:.6f}")
+                print(f"Precio promedio BTC: {precio_btc:.2f} USDT")
+            
             return True
-
+        
         except Exception as e:
-            print(f"Error en venta futuros: {str(e)}")
+            print(f"Error en venta futuros RONIN por BTC: {str(e)}")
             return False
+
+    # def vender_ronin_por_btc_futuros(self):
+    #     """Vende RONIN y compra BTC en futuros"""
+            
+    #     print("\n=== VENTA FUTUROS RONIN POR BTC ===")
+        
+    #     try:
+    #         # 1. Obtener saldo RONIN en futuros
+    #         saldo_ronin = self.consultas_futuros.obtener_saldo_futuros('RONIN')
+    #         if saldo_ronin <= 0:
+    #             print("Error: No hay saldo de RONIN en futuros")
+    #             return False
+            
+    #         # ... (resto de la implementación que ya tenías)
+            
+        
+        
+    #         # 2. Vender RONIN por USDT en futuros
+    #         self.operar_en_mercado('RONINUSDT', 'vender', saldo_ronin, tipo="futuros")
+            
+    #         # 3. Obtener nuevo saldo USDT en futuros
+    #         time.sleep(3)
+    #         saldo_usdt = self.consultas_futuros.obtener_saldo_futuros('USDT')
+            
+    #         # 4. Comprar BTC con USDT en futuros
+    #         precio_btc = self.consultas_futuros.obtener_precio_actual('BTCUSDT')
+    #         cantidad_btc = saldo_usdt / precio_btc
+    #         self.operar_en_mercado('BTCUSDT', 'comprar', cantidad_btc, tipo="futuros")
+                        
+    #         return True
+
+    #     except Exception as e:
+    #         print(f"Error en venta futuros: {str(e)}")
+    #         return False
         
 
     def vender_ronin_por_btc(self):
