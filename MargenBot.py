@@ -110,7 +110,8 @@ class MargenBot:
             precio_ronin = self.futuros_ops.futuros.obtener_precio_actual('RONINUSDT')
             
             # Calcular cantidad segura (99% del saldo)
-            cantidad_segura = int((saldo_usdt * 0.99) / precio_ronin)
+            #cantidad_segura = int((saldo_usdt * 0.99) / precio_ronin)
+            cantidad_segura = int((saldo_usdt - 10) / precio_ronin)
             
             # Verificar mínimo 1 RONIN
             if cantidad_segura < 1:
@@ -136,7 +137,7 @@ class MargenBot:
             
             # 4. Mostrar resultados
             print("\nResultado de la operación en futuros:")
-            print(f"USDT utilizados: {saldo_usdt * 0.99:.2f} (de {saldo_usdt:.2f} disponibles)")
+            print(f"USDT utilizados: {saldo_usdt -10:.2f} (de {saldo_usdt:.2f} disponibles)")
             pos_ronin = self.futuros_ops.futuros.obtener_posicion('RONINUSDT')
             if pos_ronin:
                 cantidad_ronin = abs(float(pos_ronin['cantidad']))
