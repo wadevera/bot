@@ -176,3 +176,4 @@ class FuturosTrading:
         except Exception as e:
             print(f"Error al obtener cantidad mínima: {e}")
             return 0.001
+    
