@@ -305,10 +305,10 @@ class MargenBot:
             print(f"Comprando {cantidad_ronin} RONIN con {monto_compra:.2f} USDT (saldo total: {saldo_usdt:.2f} USDT)")
             
             # 4. Comprar cantidad fija de RONIN
-            self.futuros_ops.futuros.establecer_apalancamiento('RONINUSDT', 1)
+            self.futuros_ops.futuros.establecer_apalancamiento('RONINUSDT', 5)
             orden_compra_ronin = self.futuros_ops.comprar_ronin(
                 porcentaje=1.0,
-                apalancamiento=1,
+                apalancamiento=5,
                 cantidad_fija=cantidad_ronin  # Usar cantidad fija
             )
 
